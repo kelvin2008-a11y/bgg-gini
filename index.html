@@ -1,7 +1,343 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="SNUTI 26학번 U반 강현서의 개인 홈페이지입니다.">
+  <meta name="theme-color" content="#07111f">
+  <title>강현서 | 개인 홈페이지</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #07111f;
+      --surface: rgba(14, 31, 51, 0.78);
+      --line: rgba(142, 208, 226, 0.18);
+      --text: #f2f7fa;
+      --muted: #a9bbc8;
+      --accent: #56d5c9;
+      --accent-soft: rgba(86, 213, 201, 0.12);
+      --max-width: 1080px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(86, 213, 201, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(86, 213, 201, 0.035) 1px, transparent 1px),
+        radial-gradient(circle at 82% 8%, rgba(27, 118, 143, 0.3), transparent 34rem),
+        var(--bg);
+      background-size: 44px 44px, 44px 44px, auto, auto;
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", sans-serif;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .page-shell {
+      width: min(calc(100% - 40px), var(--max-width));
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 80px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .wordmark {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      font-weight: 750;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+    }
+
+    .wordmark::before {
+      width: 9px;
+      height: 9px;
+      border: 2px solid var(--accent);
+      border-radius: 2px;
+      content: "";
+      box-shadow: 0 0 16px rgba(86, 213, 201, 0.7);
+    }
+
+    nav {
+      display: flex;
+      gap: clamp(16px, 4vw, 32px);
+    }
+
+    nav a {
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 650;
+      text-decoration: none;
+      transition: color 160ms ease;
+    }
+
+    nav a:hover,
+    nav a:focus-visible {
+      color: var(--accent);
+    }
+
+    main {
+      padding: clamp(70px, 12vw, 136px) 0 72px;
+    }
+
+    .intro {
+      max-width: 780px;
+      margin-bottom: clamp(72px, 12vw, 128px);
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 22px;
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 750;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      width: 28px;
+      height: 1px;
+      background: var(--accent);
+      content: "";
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(3.4rem, 11vw, 7.6rem);
+      font-weight: 850;
+      letter-spacing: -0.07em;
+      line-height: 0.96;
+    }
+
+    .intro-text {
+      max-width: 590px;
+      margin: 32px 0 0;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 2.1vw, 1.25rem);
+      word-break: keep-all;
+    }
+
+    .accent-line {
+      display: block;
+      width: min(210px, 44vw);
+      height: 4px;
+      margin-top: 38px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+    }
+
+    .sections {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      min-height: 230px;
+      padding: 30px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--surface);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.16);
+      backdrop-filter: blur(12px);
+    }
+
+    .card-number {
+      display: block;
+      margin-bottom: 42px;
+      color: var(--accent);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 1.25rem;
+      letter-spacing: -0.025em;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1rem;
+      word-break: keep-all;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 2px;
+    }
+
+    .tag {
+      padding: 7px 11px;
+      border: 1px solid rgba(86, 213, 201, 0.3);
+      border-radius: 999px;
+      color: #baf2ec;
+      background: var(--accent-soft);
+      font-size: 0.9rem;
+      font-weight: 650;
+    }
+
+    .email {
+      display: inline-block;
+      max-width: 100%;
+      color: var(--text);
+      font-weight: 650;
+      overflow-wrap: anywhere;
+      text-decoration-color: var(--accent);
+      text-underline-offset: 5px;
+    }
+
+    .email:hover,
+    .email:focus-visible {
+      color: var(--accent);
+    }
+
+    footer {
+      padding: 26px 0 34px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 5px;
+      border-radius: 3px;
+    }
+
+    @media (max-width: 800px) {
+      .sections {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        min-height: auto;
+      }
+
+      .card-number {
+        margin-bottom: 24px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .page-shell {
+        width: min(calc(100% - 28px), var(--max-width));
+      }
+
+      header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 16px;
+        padding: 20px 0;
+      }
+
+      nav {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      main {
+        padding-top: 64px;
+      }
+
+      .intro {
+        margin-bottom: 64px;
+      }
+
+      .intro-text {
+        margin-top: 26px;
+      }
+
+      .card {
+        padding: 24px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      * {
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
 <body>
-  <h1>안녕하세요, 제 홈페이지입니다!</h1>
-  <p>Github Pages로 만들었습니다!</p>
+  <div class="page-shell">
+    <header>
+      <a class="wordmark" href="#top" aria-label="강현서 홈페이지 처음으로">KANG HYEONSEO</a>
+      <nav aria-label="주요 메뉴">
+        <a href="#about">소개</a>
+        <a href="#interests">관심사</a>
+        <a href="#contact">연락처</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow">Personal page</p>
+        <h1 id="page-title">강현서</h1>
+        <p class="intro-text">SNUTI 26학번 U반 강현서입니다!</p>
+        <span class="accent-line" aria-hidden="true"></span>
+      </section>
+
+      <div class="sections">
+        <section class="card" id="about" aria-labelledby="about-title">
+          <span class="card-number">01 / ABOUT</span>
+          <h2 id="about-title">소개</h2>
+          <p>SNUTI 26학번 U반에서 새로운 배움과 경험을 쌓아가고 있습니다.</p>
+        </section>
+
+        <section class="card" id="interests" aria-labelledby="interests-title">
+          <span class="card-number">02 / INTERESTS</span>
+          <h2 id="interests-title">관심사</h2>
+          <div class="tags" aria-label="관심 분야">
+            <span class="tag">반도체 설계</span>
+            <span class="tag">반도체 SW</span>
+          </div>
+        </section>
+
+        <section class="card" id="contact" aria-labelledby="contact-title">
+          <span class="card-number">03 / CONTACT</span>
+          <h2 id="contact-title">연락처</h2>
+          <p><a class="email" href="mailto:kelvin2008@snu.ac.kr">kelvin2008@snu.ac.kr</a></p>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <span>&copy; 2026 강현서</span>
+    </footer>
+  </div>
 </body>
 </html>
