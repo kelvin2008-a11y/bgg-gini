@@ -35,12 +35,16 @@ function parsePrograms(html) {
 
 async function refreshPrograms(env) {
   if (!env.PROGRAMS_CACHE) throw new Error("program cache is not configured");
-  const pages = await Promise.all(Array.from({ length: 8 }, async (_, index) => {
-    const page = index + 1, url = page === 1 ? SNU_LIST_URL : `${SNU_LIST_URL}?currentPageNo=${page}`;
+  const fetchPage = async (page) => {
+    const url = page === 1 ? SNU_LIST_URL : `${SNU_LIST_URL}?currentPageNo=${page}`;
     const response = await fetch(url, { headers: { "User-Agent": "BgyogwaJini/1.0 (public program catalogue refresh)" } });
     if (!response.ok) throw new Error(`SNU list request failed: ${response.status}`);
-    return parsePrograms(await response.text());
-  }));
+    return response.text();
+  };
+  const firstPage = await fetchPage(1);
+  const pageNumbers = [...firstPage.matchAll(/global\.index\((\d+)\)/g)].map((match) => Number(match[1]));
+  const totalPages = Math.max(1, Math.min(50, ...pageNumbers));
+  const pages = [parsePrograms(firstPage), ...(await Promise.all(Array.from({ length: totalPages - 1 }, async (_, index) => parsePrograms(await fetchPage(index + 2)))))];
   const byId = new Map(); for (const program of pages.flat()) byId.set(program.id, program);
   const programs = [...byId.values()]; if (programs.length < 5) throw new Error("SNU list parsing returned too few programs");
   const payload = { programs, updatedAt: new Date().toISOString(), source: SNU_LIST_URL };
