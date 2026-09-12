@@ -537,6 +537,46 @@
       word-break: keep-all;
     }
 
+    .achievement-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 32px;
+      align-items: end;
+      padding: clamp(30px, 5vw, 54px);
+      border: 1px solid rgba(53, 237, 126, 0.3);
+      border-radius: 40px;
+      background: linear-gradient(135deg, rgba(53, 237, 126, 0.2), rgba(88, 101, 242, 0.3));
+    }
+
+    .achievement-card h3 {
+      margin: 14px 0;
+      font-family: "Arial Black", "Apple SD Gothic Neo", sans-serif;
+      font-size: clamp(2.3rem, 5vw, 4.5rem);
+      letter-spacing: -0.065em;
+      line-height: 1;
+    }
+
+    .achievement-card p {
+      max-width: 660px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.82);
+      word-break: keep-all;
+    }
+
+    .achievement-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: 12px 18px;
+      border-radius: 16px;
+      color: #06132b;
+      background: var(--green);
+      font-weight: 800;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
     .showcase {
       width: min(calc(100% - 48px), 1320px);
       margin: 0 auto 120px;
@@ -706,6 +746,11 @@
         grid-template-columns: 1fr;
       }
 
+      .achievement-card {
+        grid-template-columns: 1fr;
+        align-items: start;
+      }
+
       .interest-card {
         min-height: 350px;
       }
@@ -868,6 +913,7 @@
         <a href="#about">소개</a>
         <a href="#interview">인터뷰</a>
         <a href="#interests">관심사</a>
+        <a href="#achievements">성과</a>
         <a class="nav-button" href="#contact">연락처</a>
       </nav>
 
@@ -877,6 +923,7 @@
           <a href="#about">소개</a>
           <a href="#interview">인터뷰</a>
           <a href="#interests">관심사</a>
+          <a href="#achievements">성과</a>
           <a href="#contact">연락처</a>
         </nav>
       </details>
@@ -958,6 +1005,23 @@
             </div>
           </article>
         </div>
+      </div>
+    </section>
+
+    <section class="section" id="achievements" aria-labelledby="achievements-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-label">What I made</p>
+          <h2 id="achievements-title">만든<br>성과입니다</h2>
+        </div>
+        <article class="achievement-card">
+          <div>
+            <span class="card-number">01</span>
+            <h3>비교과지니</h3>
+            <p>관심사 한 줄을 바탕으로 SNU 비교과 프로그램을 5개 추천하는 생성형 AI 서비스입니다. Cloudflare Workers AI를 활용하며, SNU 공개 목록을 매일 자동으로 갱신합니다.</p>
+          </div>
+          <a class="achievement-link" href="https://kelvin2008-a11y.github.io/bgg-gini/" target="_blank" rel="noopener">비교과지니 열기 <span aria-hidden="true">↗</span></a>
+        </article>
       </div>
     </section>
 
