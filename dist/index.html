@@ -70,6 +70,8 @@
         catalog.splice(0,catalog.length,...data.programs);
         current=catalog;
         label.textContent=`SNU 비교과 전체 목록 · ${catalog.length}개`;
+        const updatedAt=new Date(data.updatedAt);
+        document.querySelector('#live-state').textContent=`최근 갱신: ${new Intl.DateTimeFormat('ko-KR',{dateStyle:'medium',timeStyle:'short',timeZone:'Asia/Seoul'}).format(updatedAt)} · SNU 원본 기준`;
         render(current);
       }catch(error){console.warn('SNU catalogue refresh unavailable',error)}
     }

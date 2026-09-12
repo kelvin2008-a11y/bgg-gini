@@ -3,7 +3,7 @@ const ALLOWED_ORIGINS = new Set([
   "https://bigyogwa-jini.snu-chatgpt-5678.chatgpt.site",
 ]);
 const SNU_LIST_URL = "https://extra.snu.ac.kr/ptfol/pgm/index.do";
-const CACHE_KEY = "snu-programs-v2";
+const CACHE_KEY = "snu-programs-v3";
 const CACHE_MAX_AGE_MS = 8 * 24 * 60 * 60 * 1000;
 
 function corsHeaders(origin) {
