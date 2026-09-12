@@ -43,7 +43,7 @@ async function refreshPrograms(env) {
   };
   const firstPage = await fetchPage(1);
   const pageNumbers = [...firstPage.matchAll(/global\.index\((\d+)\)/g)].map((match) => Number(match[1]));
-  const totalPages = Math.max(1, Math.min(50, ...pageNumbers));
+  const totalPages = Math.max(1, ...pageNumbers);
   const pages = [parsePrograms(firstPage), ...(await Promise.all(Array.from({ length: totalPages - 1 }, async (_, index) => parsePrograms(await fetchPage(index + 2)))))];
   const byId = new Map(); for (const program of pages.flat()) byId.set(program.id, program);
   const programs = [...byId.values()]; if (programs.length < 5) throw new Error("SNU list parsing returned too few programs");
