@@ -4,7 +4,8 @@ const ALLOWED_ORIGINS = new Set([
 ]);
 const SNU_LIST_URL = "https://extra.snu.ac.kr/ptfol/pgm/index.do";
 const CACHE_KEY = "snu-programs-v3";
-const CACHE_MAX_AGE_MS = 8 * 24 * 60 * 60 * 1000;
+const CACHE_MAX_AGE_MS = 20 * 60 * 60 * 1000;
+const STATUS_KEY = "snu-program-refresh-status";
 
 function corsHeaders(origin) {
   return { "Access-Control-Allow-Origin": ALLOWED_ORIGINS.has(origin) ? origin : "https://kelvin2008-a11y.github.io", "Access-Control-Allow-Methods": "GET, POST, OPTIONS", "Access-Control-Allow-Headers": "Content-Type", "Vary": "Origin", "Content-Type": "application/json; charset=UTF-8" };
@@ -48,7 +49,16 @@ async function refreshPrograms(env) {
   const byId = new Map(); for (const program of pages.flat()) byId.set(program.id, program);
   const programs = [...byId.values()]; if (programs.length < 5) throw new Error("SNU list parsing returned too few programs");
   const payload = { programs, updatedAt: new Date().toISOString(), source: SNU_LIST_URL };
-  await env.PROGRAMS_CACHE.put(CACHE_KEY, JSON.stringify(payload)); return payload;
+  await Promise.all([
+    env.PROGRAMS_CACHE.put(CACHE_KEY, JSON.stringify(payload)),
+    env.PROGRAMS_CACHE.put(STATUS_KEY, JSON.stringify({ lastAttemptAt: payload.updatedAt, lastSuccessAt: payload.updatedAt, status: "success" })),
+  ]);
+  return payload;
+}
+
+async function recordRefreshFailure(env, error) {
+  if (!env.PROGRAMS_CACHE) return;
+  await env.PROGRAMS_CACHE.put(STATUS_KEY, JSON.stringify({ lastAttemptAt: new Date().toISOString(), status: "failed", error: String(error?.message || error).slice(0, 300) }));
 }
 
 function outputText(response) { return response?.response || response?.choices?.[0]?.message?.content || ""; }
@@ -91,5 +101,5 @@ export default {
       return json({ recommendations }, 200, origin);
     } catch { return json({ error: "recommendation_unavailable" }, 502, origin); }
   },
-  async scheduled(_controller, env, ctx) { ctx.waitUntil(refreshPrograms(env)); },
+  async scheduled(_controller, env, ctx) { ctx.waitUntil(refreshPrograms(env).catch((error) => recordRefreshFailure(env, error))); },
 };
