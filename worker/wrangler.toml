@@ -2,8 +2,15 @@ name = "bgg-gini-ai"
 main = "src/index.js"
 compatibility_date = "2026-09-12"
 
+[[kv_namespaces]]
+binding = "PROGRAMS_CACHE"
+id = "cdc1c936334a44b5984f2550db41c2a3"
+
 [vars]
 AI_MODEL = "@cf/zai-org/glm-4.7-flash"
 
 [ai]
 binding = "AI"
+
+[triggers]
+crons = ["0 21 * * 6"]
